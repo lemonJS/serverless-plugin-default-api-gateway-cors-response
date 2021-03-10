@@ -1,0 +1,7 @@
+# Node
+dist
+node_modules
+
+# Editors
+.vscode
+.idea

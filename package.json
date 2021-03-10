@@ -1,0 +1,16 @@
+{
+  "name": "@lifeworks/serverless-cors-plugin",
+  "version": "0.0.4",
+  "description": "Serverless plugin to configure CORS",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "@node-developers",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/serverless": "^1.78.21",
+    "serverless": "^2.29.0",
+    "typescript": "^4.2.3"
+  }
+}
