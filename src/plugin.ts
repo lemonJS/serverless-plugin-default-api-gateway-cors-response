@@ -1,10 +1,17 @@
 import type Serverless from 'serverless';
 import type { CloudFormationResource } from 'serverless/plugins/aws/provider/awsProvider';
+import { assign, join } from 'lodash';
 
 type StatusCodeRange = '5XX' | '4XX';
 
 interface Hooks {
   'before:package:finalize': VoidFunction;
+}
+
+interface Options {
+  origin: string;
+  headers: string | string[];
+  statusCodeRanges: StatusCodeRange[];
 }
 
 class CorsPlugin {
@@ -18,6 +25,12 @@ class CorsPlugin {
     FAILED: '🙀 Failed to inject Cors configuration'
   };
 
+  private defaultOptions: Options = {
+    origin: '*',
+    headers: '*',
+    statusCodeRanges: ['5XX', '4XX']
+  };
+
   /**
    * Instantiate the class and assign the hooks that
    * Serverless will bind to
@@ -29,13 +42,16 @@ class CorsPlugin {
   }
 
   /**
-   * Get a list of status code ranges from the custom
-   * config of the serverless project
+   * Get the combined options object from the defaults
+   * and the serverless custom config
    * @private
-   * @return {StatusCodeRange[]}
+   * @return {Options}
    */
-  private get statusCodes(): StatusCodeRange[] {
-    return ['4XX', '5XX'];
+  private get options(): Options {
+    return assign(
+      this.defaultOptions,
+      this.serverless.service.custom['default-api-gateway-cors-response']
+    );
   }
 
   /**
@@ -57,7 +73,7 @@ class CorsPlugin {
   /**
    * Build the block of Cloudformation to add the default
    * Api Gateway Response using the provided status code
-   * range
+   * range and origin
    * @private
    * @param {StatusCodeRange} statusCode 
    * @return {CloudFormationResource}
@@ -67,8 +83,8 @@ class CorsPlugin {
       Type: 'AWS::ApiGateway::GatewayResponse',
       Properties: {
         ResponseParameters: {
-          'gatewayresponse.header.Access-Control-Allow-Origin': "'*'",
-          'gatewayresponse.header.Access-Control-Allow-Headers': "'*'"
+          'gatewayresponse.header.Access-Control-Allow-Origin': `'${this.options.origin}'`,
+          'gatewayresponse.header.Access-Control-Allow-Headers': `'${join(this.options.headers, ', ')}'`
         },
         ResponseType: `DEFAULT_${statusCode}`,
         RestApiId: {
@@ -85,7 +101,7 @@ class CorsPlugin {
    * @return {void}
    */
   private process(): void {
-    this.statusCodes.forEach((statusCode: StatusCodeRange) => {
+    this.options.statusCodeRanges.forEach((statusCode: StatusCodeRange) => {
       const name = `GatewayResponseDefault${statusCode}`;
       this.serverless.service.resources.Resources[name] = this.buildDefaultResponse(statusCode);
     });

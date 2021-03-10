@@ -7,6 +7,7 @@ export class ServerlessFixture extends Serverless {
   };
 
   service = {
+    custom: {},
     resources: {
       Resources: {}
     }

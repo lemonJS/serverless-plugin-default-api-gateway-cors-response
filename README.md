@@ -28,7 +28,10 @@ Configure the options (optional)
 custom:
   default-api-gateway-cors-response:
     origin: '*'
-    status-code-ranges:
+    headers:
+      - 'Accept'
+      - 'Authorization'
+    statusCodeRanges:
       - '4XX'
       - '5XX'
 ```
