@@ -1,0 +1,11 @@
+# Node
+src
+node_module
+test
+
+# Other stuff
+CODEOWNERS
+.gitignore
+.idea
+.vscode
+.circleci
