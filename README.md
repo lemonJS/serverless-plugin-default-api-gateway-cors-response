@@ -6,7 +6,7 @@ A Serverless plugin that injects the common cors configuration for wellbeing Nod
 
 When you enable cors inside the serverless.yml file, you're allowing those headers to be passed though Api Gateway, it does not set them.
 
-Our custom GraphQL handlers set the values of these headers, via the build in Apollo property. However, if the GraphQL handler is unable to set the headers (for example, in the event of an authentication error), then these headers are not set, and the client will receive a cors error instead of the auth error.  
+Our custom GraphQL handlers set the values of these headers, via the built in Apollo `cors` property. However, if the GraphQL handler is unable to set the headers (for example, in the event of an authentication error in the authoriser lambda), then these headers are not set, and the client will receive a cors error instead of the expected auth error.  
 
 This package monkey-patches the Default Api Gateway Response for 4xx and 5xx errors to the serverless resources. 
 
