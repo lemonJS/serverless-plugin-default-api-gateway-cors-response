@@ -3,8 +3,7 @@ src
 node_module
 test
 
-# Other stuff
-CODEOWNERS
+# Other
 .gitignore
 .idea
 .vscode

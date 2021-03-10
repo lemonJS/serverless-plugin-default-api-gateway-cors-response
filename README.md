@@ -1,34 +1,42 @@
-# Serverless Cors Plugin
+# Default API Gateway Cors Response
 
-A Serverless plugin that injects the common cors configuration for wellbeing Node.js APIs.
+A Serverless plugin that injects default cors headers
 
 ### Purpose
 
 When you enable cors inside the serverless.yml file, you're allowing those headers to be passed though Api Gateway, it does not set them.
 
-Our custom GraphQL handlers set the values of these headers, via the built in Apollo `cors` property. However, if the GraphQL handler is unable to set the headers (for example, in the event of an authentication error in the authoriser lambda), then these headers are not set, and the client will receive a cors error instead of the expected auth error.  
+Generally your application will return the cors related headers. However, in the event that the application can't set the headers (for example, when an authorisation lambda rejects), then the headers won't be set.
 
 This package monkey-patches the Default Api Gateway Response for 4xx and 5xx errors to the serverless resources. 
 
 ### Requirements
 - Node.js v14
-- Access to the wellbeing npm account
 
-### Usage:
+### Usage
 Install the package as a dev dependency
 ```shell
-$ npm install -D @lifeworks/serverless-cors-plugin
+$ npm install -D serverless-plugin-default-api-gateway-cors-response
 ```
 Include the plugin in your serverless.yml
 ```yaml
 plugins:
-  - '@lifeworks/serverless-cors-plugin'
+  - 'serverless-plugin-default-api-gateway-cors-response'
+```
+Configure the options (optional)
+```yaml
+custom:
+  default-api-gateway-cors-response:
+    origin: '*'
+    status-code-ranges:
+      - '4XX'
+      - '5XX'
 ```
 
 ### Installation
 ```shell
-$ git clone git@github.com:workivate/serverless-cors-plugin.git
-$ cd serverless-cors-plugin
+$ git clone git@github.com:lemonJS/serverless-plugin-default-api-gateway-cors-response.git
+$ cd serverless-plugin-default-api-gateway-cors-response
 $ npm install
 ```
 

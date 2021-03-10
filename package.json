@@ -1,13 +1,13 @@
 {
-  "name": "@lifeworks/serverless-cors-plugin",
+  "name": "serverless-plugin-default-api-gateway-cors-response",
   "version": "1.0.0",
-  "description": "Serverless plugin to configure CORS",
+  "description": "A Serverless plugin that injects default cors headers\n",
   "main": "dist/plugin.js",
   "scripts": {
     "build": "tsc",
     "test": "jest"
   },
-  "author": "@node-developers",
+  "author": "Lewis Monteith <lewismonteith@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^26.0.20",
