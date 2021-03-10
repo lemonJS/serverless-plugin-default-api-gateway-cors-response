@@ -3,8 +3,14 @@ import type { CloudFormationResource } from 'serverless/plugins/aws/provider/aws
 
 type StatusCodeRange = '5XX' | '4XX';
 
+interface Hooks {
+  'before:package:finalize': VoidFunction;
+}
+
 class CorsPlugin {
-  public hooks = {};
+  public hooks: Hooks = {
+    'before:package:finalize': this.beforePackageFinalize.bind(this)
+  };
 
   private logMessages = {
     START: '🚀 Injecting Cors configuration',
@@ -20,10 +26,6 @@ class CorsPlugin {
    */
   public constructor(private serverless: Serverless) {
     this.serverless = serverless;
-
-    this.hooks = {
-      'before:package:finalize': this.beforePackageFinalize.bind(this)
-    };
   }
 
   /**
@@ -90,4 +92,4 @@ class CorsPlugin {
   }
 }
 
-module.exports = CorsPlugin;
+export default CorsPlugin;
