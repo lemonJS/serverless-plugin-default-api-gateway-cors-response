@@ -30,6 +30,7 @@ jobs:
       - checkout
       - *restore_npm_cache
       - run: npm install
+      - run: npm run build
       - run: npm test
       - *save_npm_cache
 
@@ -40,6 +41,7 @@ jobs:
       - checkout
       - *restore_npm_cache
       - run: npm install
+      - run: npm run build
       - *save_npm_cache
       - run: npm publish
 

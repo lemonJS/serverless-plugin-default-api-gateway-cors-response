@@ -13,7 +13,7 @@ $ cd serverless-cors-plugin
 $ npm install
 ```
 
-### Running the typechecker
+### Running the type checker
 ```shell
-$ npx tsc
+$ npm run build
 ```

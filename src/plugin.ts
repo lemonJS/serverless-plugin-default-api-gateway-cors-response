@@ -92,4 +92,5 @@ class CorsPlugin {
   }
 }
 
-export default CorsPlugin;
+// A bit weird but it's what Serverless requires
+export = CorsPlugin;
